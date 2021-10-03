@@ -23,10 +23,12 @@ router.get('/:id',auth,async (req,res) => {
 })
 
 
-router.post('/',async(req,res) => {
+router.post('/',auth,async(req,res) => {
     try {
         
-        const doctor = new  Doctor(req.body);
+        console.log(req.user.id)
+        const doctor = new  Doctor({userId:req.user.id,...req.body});
+        
         await doctor.save();
         res.send(doctor);
     } catch (error) {

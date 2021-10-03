@@ -20,6 +20,7 @@ router.get('/:id',async(req,res)=>{
    }
 })
 
+
 //get user and its details by email-id
 router.post('/email',auth,async (req,res)=>{
    try {
@@ -29,6 +30,8 @@ router.post('/email',auth,async (req,res)=>{
       //find the patient details
       if(role === 'patient'){
          const patient = await Patient.findOne({userId:id});
+         //if patient is null send error response
+         if(!patient) throw new Error("Details not found")
          return res.send({
             id,
             role,
@@ -37,7 +40,8 @@ router.post('/email',auth,async (req,res)=>{
          });
          
       }
-      const doctor = await Doctor.findById(roleId);
+      const doctor = await Doctor.findOne({userId:id});
+      if(!doctor) throw new Error("Details not found")
       
       res.send({
          id,role,doctor
@@ -48,6 +52,7 @@ router.post('/email',auth,async (req,res)=>{
    }
 })
 
+
 //list of all paitients
 router.get('/',auth,async (req,res)=>{
    try{
@@ -57,7 +62,6 @@ router.get('/',auth,async (req,res)=>{
       res.status(500).send(err);
    }
 })
-
 
 
 //add user

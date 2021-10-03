@@ -1,16 +1,25 @@
 const mongoose = require('mongoose')
 
 const doctorSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
-    },
     userId:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:'User',
         unique:true
     },
-    verified:{
+    name:{
+        type:String,
+        required:true
+    },
+    
+    gender:{
+        type:String,
+        enum:['male','female','others']
+    },
+    
+    DOB:{
+        type:String
+    },
+    verified:{         //edited by admin
         type:Boolean,
         default:false
     },
@@ -22,7 +31,7 @@ const doctorSchema = new mongoose.Schema({
     },
     organization_type:{
         type:String,
-        enum:['private','Goverment'],
+        enum:['private','goverment',"public","others"],
         required:true
     },
     organization:{

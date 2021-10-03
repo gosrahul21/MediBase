@@ -23,7 +23,6 @@ const auth = async ( req,res,next) => {
 
     try{
         const {token} = req.headers
-        console.log(token)
         if(!token)
            throw new Error("Token not found");
 

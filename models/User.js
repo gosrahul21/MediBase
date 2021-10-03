@@ -21,9 +21,6 @@ const userSchema = new mongoose.Schema({
         enum:["doctor","patient"],
         required:true
     },
-    roleId:{
-        type:mongoose.SchemaTypes.ObjectId
-    },
     tokens:[]
 
 })
