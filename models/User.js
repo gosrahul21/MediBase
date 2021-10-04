@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema({
         type:String,
         default:"patient",
         enum:["doctor","patient"],
-        required:true
     },
     tokens:[]
 
