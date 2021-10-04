@@ -28,10 +28,12 @@ router.post('/email',auth,async (req,res)=>{
       const {email} = req.body
       const {role,id,avatar} = await User.findOne({email});
       //find the patient details
+      console.log(avatar)
       if(role === 'patient'){
          const patient = await Patient.findOne({userId:id});
          //if patient is null send error response
          if(!patient) throw new Error("Details not found")
+         
          return res.send({
             id,
             role,
@@ -44,7 +46,7 @@ router.post('/email',auth,async (req,res)=>{
       if(!doctor) throw new Error("Details not found")
       
       res.send({
-         id,role,doctor
+         id,role,doctor,avatar
       });
 
    } catch (error) {

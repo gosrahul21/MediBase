@@ -19,6 +19,10 @@ app.get('/',(req,res)=>{
     console.log("hello");
     res.send("helo");
 });
+// for(let i=0;i<10;i++)
+
+
+
 
 app.listen(port,(err)=>{
     console.log("connection established at port:",port)

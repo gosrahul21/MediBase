@@ -2,7 +2,7 @@ const router = require('express').Router()
 const Doctor = require('../models/Doctor')
 const auth = require('../middlewares/auth');
 
-
+//get current logined user
 router.get('/',auth,async (req,res)=>{
     try{
         const userId = req.user.id;
@@ -14,6 +14,14 @@ router.get('/',auth,async (req,res)=>{
     }
 })
 
+router.get('/all',auth,async (req,res)=>{
+    try {
+        const doctors = await Doctor.find();
+        res.send(doctors);
+    } catch (error) {
+        res.status(500).send({message:error.message})
+    }
+})
 
 //get doctor by id
 router.get('/:id',auth,async (req,res) => {
@@ -26,6 +34,7 @@ router.get('/:id',auth,async (req,res) => {
 })
 
 
+//create new doctor profile of logined user
 router.post('/',auth,async(req,res) => {
     try {
         
@@ -52,5 +61,7 @@ router.put('/:id',auth,async (req,res)=>{
         })
     }
 })
+
+
 
 module.exports = router;

@@ -10,9 +10,9 @@ const {hash} = bcryptjs
 //get user details from token
 router.get('/',auth,(req,res) => {
     try{
-        const {id,email,role,roleId} = req.user;
+        const {id,email,role,roleId,avatar} = req.user;
         // console.log(req.user)
-        res.send({userId:id,email,role,roleId});
+        res.send({userId:id,email,role,avatar});
     }catch({message}){
         res.status(500).send({
             message
@@ -62,7 +62,7 @@ router.post('/login',async (req,res)=>{
         if(isEqual){   //authenticated
 
              //generate jwt token
-        const {id,role,roleId} = user;
+        const {id,role,avatar} = user;
         const token = jwt.sign({id},"sfdw@3#&^/df",{expiresIn:'140h'})
         // user.tokens = [...user.tokens,token];
         await user.save();
@@ -72,7 +72,7 @@ router.post('/login',async (req,res)=>{
                 token,
                 success:true,
                 role,
-                roleId,
+                avatar,
                 message:"user logged in"
             });
         }else {
