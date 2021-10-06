@@ -22,7 +22,7 @@ router.post('/',auth,async (req,res)=>{
 //getting the login user account details
 router.get('/',auth,async (req,res) => {
     try {
-        console.log("patient detilas")
+        console.log("getting the login patient /normal user account details")
         const user = req.user
         const patient = await Patient.findOne({userId:user.id})
         if(patient)

@@ -4,6 +4,7 @@ const router = express.Router()
 const auth = require('../middlewares/auth')
 const Patient = require('../models/Patient')
 const Doctor = require('../models/Doctor')
+const Request = require('../models/PermissionGrant')
 
 //get user by id
 router.get('/:id',async(req,res)=>{
@@ -21,19 +22,24 @@ router.get('/:id',async(req,res)=>{
 })
 
 
-//get user and its details by email-id
+//get user and its details by email-id based on its access request
 router.post('/email',auth,async (req,res)=>{
    try {
-      console.log('email')
+    
       const {email} = req.body
       const {role,id,avatar} = await User.findOne({email});
-      //find the patient details
-      console.log(avatar)
+    
+     
+     
+
+      //find the patient detail
       if(role === 'patient'){
          const patient = await Patient.findOne({userId:id});
+
          //if patient is null send error response
          if(!patient) throw new Error("Details not found")
-         
+
+         //check if there is any request b/w current user and the email user
          return res.send({
             id,
             role,

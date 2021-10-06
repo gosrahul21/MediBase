@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+//pending request record
 const RequestSchema = new mongoose.Schema ({
     from:{
         type:mongoose.Schema.ObjectId,
@@ -22,5 +22,6 @@ const RequestSchema = new mongoose.Schema ({
 });
 
 RequestSchema.index({from:1,to:1},{unique:true});
+
 
 module.exports = mongoose.model('Request',RequestSchema);

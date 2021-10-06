@@ -14,11 +14,16 @@ app.use('/history',require('./router/history'));
 app.use('/auth',require('./router/auth'))
 app.use('/request',require('./router/request'))
 app.use('/notification',require('./router/Notification'))
+app.use('/requestRecord',require('./router/requestRecords'))
 
 app.get('/',(req,res)=>{
-    console.log("hello");
     res.send("helo");
 });
+
+app.put('/',(req,res)=>{
+    console.log(req.body)
+    res.send({message:"heleo"})
+})
 // for(let i=0;i<10;i++)
 
 

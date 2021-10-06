@@ -30,7 +30,6 @@ const auth = async ( req,res,next) => {
         
         //find user by id
         const user = await User.findById(id);
-        
         if(user){
             req.user = user
             next();
