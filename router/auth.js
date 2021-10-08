@@ -27,12 +27,11 @@ router.post('/register',async (req,res)=>{
 
         //implement in future to authenticate by email signin
         const {email,password,role} = req.body;
-        console.log(role)
         if(!email || !password)
             throw new Error("Email or password not present")
 
         const hashedPassword = await hash(password,10);
-        console.log(hashedPassword)
+
         const user = new User({
             email,password:hashedPassword,role
         })

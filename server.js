@@ -1,6 +1,11 @@
 const express = require('express')
 require('./models');
+const socket = require('socket.io')
 
+const mongoose = require('mongoose');
+
+const Request = require('./models/PermissionGrant');
+const { EventEmitter } = require('stream');
 const app = express();
 
 const port = process.env.PORT ||8000
@@ -26,9 +31,87 @@ app.put('/',(req,res)=>{
 })
 // for(let i=0;i<10;i++)
 
+const http = require('http').Server(app)
+
+const io = socket(http);
+
+const db = mongoose.connection
+
+
+io.on('connection',(socket)=>{
+    console.log("socket connected");
+    
+    socket.on("join",(data)=>{
+        console.log(data,"joined")
+        socket.join(`room-${data.id}`)
+        console.log(socket.room)
+        io.to(data.id).emit("room-welcome",{message:"welcome to room"});
+        
+    })
+
+    socket.on('request',(data)=>{
+        console.log(data)
+    })
+
+    socket.on('disconnect',()=>{
+        console.log("disconnected")
+    })
+
+    socket.on('ack',(data)=>{
+        console.log(data)
+
+        io.to(data.id).emit('reack',{message:"lund kuch ho nhi rha hai"})
+    })
+
+})
+
+
+const requestWatch = Request.watch();
+
+requestWatch.on('change',(change)=>{
+        if(change.operationType==='insert'){
+            console.log(change.fullDocument.userId)
+            io.to(`room-${change.fullDocument.userId}`).emit("requestInserted",{message:"insert operation done"});
+            io.to(`room-${change.fullDocument.to}`).emit("requestInserted",{message:"insert operation done"});
+        }
+        if(change.operationType=='update'){
+            Request.findById(change.documentKey).then(({userId,to})=>{
+                io.to(`room-${userId}`).emit("requestInserted",{message:"insert operation done"});
+                io.to(`room-${to}`).emit("requestInserted",{message:"insert operation done"});
+            })
+        }
+
+        if(change.operationType==='delete')
+        {
+            console.log(change)
+            io.emit('requestInserted',{});
+        }
+       
+})
+
+
+// db.once('open',()=>{
+
+//     const RequestRecordCollection = db.collection('requestrecords')
+//     const changeStreamRecord = RequestRecordCollection.watch()
+
+//     changeStreamRecord.on('change',(change)=>{
+//         // console.log(change)
+//         if(change.operationType == 'insert'){
+//             const roomId = change.fullDocument.userId
+//             console.log(roomId)
+//             console.log(iok===io)
+//             // emit('request',{message:"beta mai change stream please meri sun lo"})
+//             iok.to(roomId).emit("requestInserted",{message:"insert operation done"});
+//         }
+//     })
+
+
+// })
 
 
 
-app.listen(port,(err)=>{
+http.listen(port,(err)=>{
     console.log("connection established at port:",port)
 })
+

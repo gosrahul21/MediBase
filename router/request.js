@@ -46,6 +46,7 @@ router.post('/',auth,async (req,res)=>{
 })
 
 
+
 router.delete('/',auth,async(req,res)=>{
     try {
         const id = req.user.id

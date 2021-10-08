@@ -76,7 +76,7 @@ router.get('/pending',auth,async (req,res)=>{
             }
           
         }
-        console.log(fullRecord)
+     
         res.send(fullRecord);
     } catch (error) {
         res.status(500).send({
@@ -137,7 +137,6 @@ router.put('/allow',auth, async (req,res)=>{
 //grant permission for given request by request id
 router.put('/allow/:id',auth,async (req,res)=>{
     try {
-        console.log(req.params.id)
         const request = await RequestRecord.findByIdAndUpdate(req.params.id,{status:true});
         if(!request) 
             return res.status(404).send({message:"no request found for id provided"});
@@ -165,7 +164,7 @@ router.get('/record-status/:id',auth,async (req,res)=>{
     try {
         const user = req.user
         const record =await RequestRecord.findOne({userId:req.params.id,to:user.id});
-        console.log(record)
+        // console.log(record)
         if(!record)
             return res.status(404).send({
                 message:"No relation exist",

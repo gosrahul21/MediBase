@@ -6,7 +6,6 @@ const auth = require('../middlewares/auth');
 router.get('/',auth,async (req,res)=>{
     try{
         const userId = req.user.id;
-        console.log(req.user)
         const doctor = await Doctor.findOne({userId});
         if(!doctor) throw new Error("Doctor Profile does not exist")
         res.status(201).send(doctor)
@@ -40,12 +39,13 @@ router.get('/:id',auth,async (req,res) => {
 router.post('/',auth,async(req,res) => {
     try {
         
-        console.log(req.user.id)
+       console.log(req.body)
         const doctor = new  Doctor({userId:req.user.id,...req.body});
         
         await doctor.save();
         res.send(doctor);
     } catch (error) {
+        console.log(error.message)
         res.status(404).send(error);
     }
 })

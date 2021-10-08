@@ -10,7 +10,8 @@
     "firebase": "^8.7.1",
     "firebase-admin": "^9.10.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.12.13",
+    "socket.io": "^4.2.0"
   },
   "devDependencies": {},
   "scripts": {

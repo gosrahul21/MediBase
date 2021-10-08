@@ -6,6 +6,8 @@ const Patient = require('../models/Patient')
 const Doctor = require('../models/Doctor')
 const Request = require('../models/PermissionGrant')
 
+
+
 //get user by id
 router.get('/:id',async(req,res)=>{
    try{

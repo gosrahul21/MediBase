@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-// const URI= 'mongodb+srv://gosrahul21:rahul@321@dcorner.b3k0e.mongodb.net/medicalHistory?retryWrites=true&w=majority'
-const URI = 'mongodb://localhost:27017/medicalHistory'
+const URI= 'mongodb+srv://gosrahul21:rahul%40321@dcorner.b3k0e.mongodb.net/medicalHistory?retryWrites=true&w=majority'
+// const URI = 'mongodb://localhost:27017/medicalHistory'
 
 mongoose.connect(URI,{
     useCreateIndex:true,
     useNewUrlParser:true,
-    useFindAndModify:true,
+    useFindAndModify:false,
     useUnifiedTopology:true
 }
 ).then(()=>{ 
