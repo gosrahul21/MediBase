@@ -43,7 +43,7 @@ router.put('/:id',auth,async (req,res)=>{
     try {
         //find the doctor with this id
         const id = req.params.id
-        const poctor = await Patient.findByIdAndUpdate(id,req.body,{new:true});
+        const patient = await Patient.findByIdAndUpdate(id,req.body,{new:true});
         res.send(patient);
     } catch (error) {
         res.status(500).send({

@@ -87,12 +87,12 @@ router.post('/',async(req,res)=>{
 })
 
 
-router.put('/',async (req,res)=>{
+router.put('/',auth,async (req,res)=>{
    try{
       //check if the login user matched with the updated value credentials
       //if not then send error 
       //get user id from middleware 
-      const user = await User.findByIdAndUpdate(req.user,req.body,{new:true});
+      const user = await User.findByIdAndUpdate(req.user.id,req.body,{new:true});
       res.send(user);
 
    }catch(err){

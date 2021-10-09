@@ -4,7 +4,7 @@ const RequestRecord = require('../models/PermissionGrant')
 const Doctor = require('../models/Doctor')
 const Patient = require('../models/Patient')
 const auth = require('../middlewares/auth')
-
+const eventEmitter = require('../EventEmitter');
 //saving permission records for a user
 //if user is doctor then only grant presribe permission
 router.post('/',auth,async(req,res)=>{
@@ -90,7 +90,9 @@ router.delete('/',auth,async (req,res)=>{
     try {
         const userId = req.user.id
         const {to,type} = req.body
-            await RequestRecord.findOneAndDelete({userId,to})
+            const record = await RequestRecord.findOneAndDelete({userId,to})
+            // const eventEmitter = new EventEmitter();
+            eventEmitter.emit('recordDeleted',record);
             res.send({
                 message:"deleted",
                 success:true
@@ -105,7 +107,9 @@ router.delete('/',auth,async (req,res)=>{
 
 router.delete('/:id',auth,async (req,res)=>{
     try {
-        await RequestRecord.findByIdAndDelete(req.params.id);
+        const record = await RequestRecord.findByIdAndDelete(req.params.id);
+       
+        eventEmitter.emit('recordDeleted',record);
         res.send({
             message:"deleted request",
             success:true

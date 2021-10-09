@@ -5,11 +5,12 @@ const socket = require('socket.io')
 const mongoose = require('mongoose');
 
 const Request = require('./models/PermissionGrant');
-const { EventEmitter } = require('stream');
+const eventEmitter = require('./EventEmitter')
 const app = express();
 
 const port = process.env.PORT ||8000
-
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.use(require('cors')());
 app.use(express.json());
 app.use('/user',require('./router/User'));
@@ -37,10 +38,11 @@ const io = socket(http);
 
 const db = mongoose.connection
 
+let onlineUsers=0;
 
 io.on('connection',(socket)=>{
     console.log("socket connected");
-    
+    io.emit('onlineUsers',++onlineUsers);   
     socket.on("join",(data)=>{
         console.log(data,"joined")
         socket.join(`room-${data.id}`)
@@ -54,14 +56,10 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('disconnect',()=>{
+        io.emit('onlineUsers',--onlineUsers)
         console.log("disconnected")
     })
 
-    socket.on('ack',(data)=>{
-        console.log(data)
-
-        io.to(data.id).emit('reack',{message:"lund kuch ho nhi rha hai"})
-    })
 
 })
 
@@ -81,11 +79,11 @@ requestWatch.on('change',(change)=>{
             })
         }
 
-        if(change.operationType==='delete')
-        {
-            console.log(change)
-            io.emit('requestInserted',{});
-        }
+        // if(change.operationType==='delete')
+        // {
+        //     console.log(change)
+        //     io.emit('requestInserted',{});
+        // }
        
 })
 
@@ -109,6 +107,16 @@ requestWatch.on('change',(change)=>{
 
 // })
 
+
+eventEmitter.on('recordDeleted',(record)=>{
+    console.log("bunty your record deleted",record)
+    const {userId,to} = record
+    if(record){
+        io.to(`room-${userId}`).emit("requestInserted",{message:"insert operation done"});
+        io.to(`room-${to}`).emit("requestInserted",{message:"insert operation done"});
+    }
+ 
+});
 
 
 http.listen(port,(err)=>{
