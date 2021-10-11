@@ -1,14 +1,12 @@
 const express = require('express')
 require('./models');
 const socket = require('socket.io')
-
+require('dotenv').config()
 const mongoose = require('mongoose');
-
 const Request = require('./models/PermissionGrant');
 const eventEmitter = require('./EventEmitter')
 const app = express();
-
-const port = process.env.PORT ||8000
+const port = process.env.PORT 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 app.use(require('cors')());
@@ -86,27 +84,6 @@ requestWatch.on('change',(change)=>{
         // }
        
 })
-
-
-// db.once('open',()=>{
-
-//     const RequestRecordCollection = db.collection('requestrecords')
-//     const changeStreamRecord = RequestRecordCollection.watch()
-
-//     changeStreamRecord.on('change',(change)=>{
-//         // console.log(change)
-//         if(change.operationType == 'insert'){
-//             const roomId = change.fullDocument.userId
-//             console.log(roomId)
-//             console.log(iok===io)
-//             // emit('request',{message:"beta mai change stream please meri sun lo"})
-//             iok.to(roomId).emit("requestInserted",{message:"insert operation done"});
-//         }
-//     })
-
-
-// })
-
 
 eventEmitter.on('recordDeleted',(record)=>{
     console.log("bunty your record deleted",record)
