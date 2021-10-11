@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/user',require('./router/User'));
 app.use('/doctor',require('./router/Doctor'));
 app.use('/patient',require('./router/patient'));
-app.use('/history',require('./router/history'));
+app.use('/history',require('./router/History'));
 app.use('/auth',require('./router/auth'))
 app.use('/request',require('./router/request'))
 app.use('/notification',require('./router/Notification'))
