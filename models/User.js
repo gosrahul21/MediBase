@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
     role:{
         type:String,
         default:"patient",
-        enum:["doctor","patient"],
+        enum:["doctor","patient",'admin'],
     },
     tokens:[]
 
-})
+});
 
 module.exports = mongoose.model('User',userSchema);

@@ -25,22 +25,12 @@ const historySchema = new mongoose.Schema({
     ],
     medicines:[
         {
-            type:String
+            name:String,
+            instruction:String
 
         }
     ],
-    bloodGroup:{
-        type:String,
-        default:null
-    },
-    bloodPressure:{
-        type:String,
-        default:null
-    },
-    handicapped:{
-        type:String,
-        default:null
-    },
+    
     haemoglobin:{
         type:String,
         default:null
@@ -49,7 +39,6 @@ const historySchema = new mongoose.Schema({
         type:Date,
         default:Date.now()
     }
-    
 
 });
 

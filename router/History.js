@@ -26,7 +26,7 @@ router.post('/:user_id',auth,async(req,res)=>{
         const doctor = await Doctor.findOne({userId:user.id});
         if(!doctor||!doctor.verified)
             return res.status(404).send({message:"User is not doctor or not verified",success:false})
-        const request = await Request.findOne({userId:prescribingUser,to:user.id});
+        const request = await Request.findOne({userId:precribingUser,to:user.id});
         if(!request|| !request.status)
             return res.status(404).send({message:"Doctor has to generate prescribe request",success:false})
         const history = new History(req.body);
@@ -38,8 +38,6 @@ router.post('/:user_id',auth,async(req,res)=>{
         })
     }
 
-
-
 })
 
 // get all the history of current user
@@ -48,6 +46,7 @@ router.get('/',auth,async (req,res)=>{
         console.log("get history")
         const user = req.user
         const history = await History.find({userId:user.id}).sort({date:'desc'});
+        console.log(history)
         res.send(history)
     } catch (error) {
         res.send({message:error.message})

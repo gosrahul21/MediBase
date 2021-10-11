@@ -5,6 +5,7 @@ const auth = require('../middlewares/auth')
 const Patient = require('../models/Patient')
 const Doctor = require('../models/Doctor')
 const Request = require('../models/PermissionGrant')
+const adminCheck = require('../middlewares/adminCheck')
 
 
 
@@ -98,6 +99,11 @@ router.put('/',auth,async (req,res)=>{
    }catch(err){
       res.status(501).send(err);
    }
+})
+
+
+router.get('/admin',auth,adminCheck,(req,res)=>{
+
 })
 
 
