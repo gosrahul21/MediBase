@@ -6,6 +6,8 @@ const Patient = require('../models/Patient')
 router.post('/',auth,async (req,res)=>{
     try {
         const user = req.user
+        req.user.name = req.body.name
+        await req.user.save();
         let patient = new Patient({...req.body,userId:user.id})
         
         patient = await patient.save();
@@ -41,7 +43,7 @@ router.get('/',auth,async (req,res) => {
 
 router.put('/:id',auth,async (req,res)=>{
     try {
-        //find the doctor with this id
+        //find the patient with this id
         const id = req.params.id
         const patient = await Patient.findByIdAndUpdate(id,req.body,{new:true});
         res.send(patient);

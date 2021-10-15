@@ -4,14 +4,15 @@ const historySchema = new mongoose.Schema({
     userId:{
         type:mongoose.Schema.ObjectId,
         ref:"User",
-        required:true
+        required:true,
+        index:true
     },
-    DocId:{
+    docId:{
         type:mongoose.Schema.ObjectId,
         ref:"Doctor",
         required:true
     },
-    Disease:{
+    disease:{
         type:String,
         required:true
     },
@@ -20,20 +21,29 @@ const historySchema = new mongoose.Schema({
     },
     prescription_image:[
         {
-            type:String
+            public_id:String,
+            url:String
         }
     ],
     medicines:[
         {
-            name:String,
-            instruction:String
-
+            type:String
         }
     ],
     
     haemoglobin:{
         type:String,
         default:null
+    },
+    bloodPressure:{
+        type:String
+    },
+    bloodGroup:{
+        type:String,
+        enum:[
+            'A+',
+            'A-','B+','B-', 'O+','O-','AB+','AB-'
+        ]
     },
     date:{
         type:Date,

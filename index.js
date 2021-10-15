@@ -19,6 +19,7 @@ app.use('/auth',require('./router/auth'))
 app.use('/request',require('./router/request'))
 app.use('/notification',require('./router/Notification'))
 app.use('/requestRecord',require('./router/requestRecords'))
+app.use('/image',require('./router/imageUpload'))
 
 app.get('/',(req,res)=>{
     res.send("helo");
@@ -34,8 +35,6 @@ const http = require('http').Server(app)
 
 const io = socket(http);
 
-const db = mongoose.connection
-
 let onlineUsers=0;
 
 io.on('connection',(socket)=>{
@@ -47,11 +46,11 @@ io.on('connection',(socket)=>{
         console.log(socket.room)
         io.to(data.id).emit("room-welcome",{message:"welcome to room"});
         
-    })
+    });
 
     socket.on('request',(data)=>{
         console.log(data)
-    })
+    });
 
     socket.on('disconnect',()=>{
         io.emit('onlineUsers',--onlineUsers)

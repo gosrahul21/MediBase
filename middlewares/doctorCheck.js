@@ -13,7 +13,7 @@ const doctorCheck = async (req,res,next)=>{
               return res.status(404).send({
                   message:"Doctor profile not available or is not verified"
               });
-
+              req.doctor = doctor
             next();
                 
         }

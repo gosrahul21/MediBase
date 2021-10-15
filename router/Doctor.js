@@ -39,7 +39,8 @@ router.get('/:id',auth,async (req,res) => {
 router.post('/',auth,async(req,res) => {
     try {
         
-       console.log(req.body)
+        req.user.name = req.body.name;
+         req.user.save();
         const doctor = new  Doctor({userId:req.user.id,...req.body});
         
         await doctor.save();

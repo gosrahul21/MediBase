@@ -23,13 +23,7 @@ const PatientSchema = new mongoose.Schema({
     gender:{
         type:String,
         required:true
-    },
-    presribedDoctors:[
-        {
-            type:mongoose.Schema.ObjectId,
-            ref:'Doctor'
-        }
-    ]
+    }
 
 
 },{

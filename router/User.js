@@ -30,11 +30,8 @@ router.post('/email',auth,async (req,res)=>{
    try {
     
       const {email} = req.body
-      const {role,id,avatar} = await User.findOne({email});
+      const {role,id,avatar,name} = await User.findOne({email});
     
-     
-     
-
       //find the patient detail
       if(role === 'patient'){
          const patient = await Patient.findOne({userId:id});
@@ -47,7 +44,8 @@ router.post('/email',auth,async (req,res)=>{
             id,
             role,
             avatar,
-            patient
+            patient,
+            name
          });
          
       }
@@ -55,7 +53,7 @@ router.post('/email',auth,async (req,res)=>{
       if(!doctor) throw new Error("Details not found")
       
       res.send({
-         id,role,doctor,avatar
+         id,role,doctor,avatar,name
       });
 
    } catch (error) {
@@ -78,7 +76,7 @@ router.get('/',auth,async (req,res)=>{
 //add user
 router.post('/',async(req,res)=>{
    try{
-      const {name,email,password,address,DOB} = req.body
+      
       const user = new User(req.body);
       await user.save();
       res.send(user);
