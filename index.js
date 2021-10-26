@@ -22,7 +22,7 @@ app.use('/requestRecord',require('./router/requestRecords'))
 app.use('/image',require('./router/imageUpload'))
 
 app.get('/',(req,res)=>{
-    res.send("helo");
+    res.send("<h1>Welcome to the Medibase Api's. </h1>");
 });
 
 app.put('/',(req,res)=>{
