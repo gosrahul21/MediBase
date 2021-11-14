@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Request = require('./models/PermissionGrant');
 const eventEmitter = require('./EventEmitter')
 const app = express();
+app.disable('x-powered-by');
 const port = process.env.PORT 
 app.use(express.json({limit: '50mb'}));
 // app.use(express.urlencoded({limit: '50mb'}));
